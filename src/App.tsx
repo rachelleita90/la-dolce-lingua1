@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 
 const GESTURES = [
   { emoji: "🤌", name: "Ma che vuoi?", meaning: "What do you want?!", when: "When someone says something that makes absolutely no sense to you", how: "Bring all fingertips together pointing up, then shake your hand" },
@@ -54,11 +54,7 @@ function DramaMeter({ level }) {
       <div style={{ fontSize: 11, color: "#888", letterSpacing: 1, textTransform: "uppercase" }}>Drama Meter</div>
       <div style={{ display: "flex", gap: 4 }}>
         {[1,2,3,4,5].map(i => (
-          <div key={i} style={{
-            width: 30, height: 10, borderRadius: 5,
-            background: i <= level ? DRAMA_COLORS[level] : "#1E0800",
-            transition: "background 0.3s",
-          }} />
+          <div key={i} style={{ width: 30, height: 10, borderRadius: 5, background: i <= level ? DRAMA_COLORS[level] : "#1E0800", transition: "background 0.3s" }} />
         ))}
       </div>
       <div style={{ fontSize: 13, color: DRAMA_COLORS[level], fontWeight: "bold" }}>{DRAMA_LABELS[level]}</div>
@@ -74,7 +70,16 @@ function generateQuiz(allPhrases, currentIndex) {
   return { correct, options };
 }
 
+// Cinematic Italian scene cards for home screen
+const SCENES = [
+  { bg: "linear-gradient(160deg, #2C1810 0%, #8B4513 50%, #D2691E 100%)", icon: "🛵", label: "A Vespa weaving through Rome's cobblestones at golden hour" },
+  { bg: "linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)", icon: "🌙", label: "Piazza Navona lit by candlelight after midnight" },
+  { bg: "linear-gradient(160deg, #2d5016 0%, #4a7c2f 50%, #6b9e3f 100%)", icon: "🍋", label: "Lemon trees along the Amalfi Coast" },
+  { bg: "linear-gradient(160deg, #5c1a1a 0%, #8b0000 50%, #c0392b 100%)", icon: "☕", label: "Espresso at a standing bar in Naples, 7am" },
+];
+
 export default function App() {
+  const [screen, setScreen] = useState("home");
   const [tab, setTab] = useState("frasi");
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [showIt, setShowIt] = useState(false);
@@ -82,15 +87,13 @@ export default function App() {
   const [culturaIndex, setCulturaIndex] = useState(0);
   const [practiced, setPracticed] = useState(new Set());
   const [speaking, setSpeaking] = useState(false);
-
-  // Quiz state
-  const [quizActive, setQuizActive] = useState(false);
   const [quizIndex, setQuizIndex] = useState(0);
   const [quiz, setQuiz] = useState(null);
   const [selected, setSelected] = useState(null);
   const [quizResult, setQuizResult] = useState(null);
   const [score, setScore] = useState({ correct: 0, total: 0 });
   const [quizDone, setQuizDone] = useState(false);
+  const [sceneIndex, setSceneIndex] = useState(0);
 
   const phrase = PHRASES[phraseIndex];
 
@@ -106,14 +109,12 @@ export default function App() {
   }
 
   function startQuiz() {
-    const qi = 0;
-    setQuizIndex(qi);
-    setQuiz(generateQuiz(PHRASES, qi));
+    setQuizIndex(0);
+    setQuiz(generateQuiz(PHRASES, 0));
     setSelected(null);
     setQuizResult(null);
     setScore({ correct: 0, total: 0 });
     setQuizDone(false);
-    setQuizActive(true);
   }
 
   function handleQuizAnswer(option) {
@@ -126,9 +127,8 @@ export default function App() {
 
   function nextQuizQuestion() {
     const next = quizIndex + 1;
-    if (next >= PHRASES.length) {
-      setQuizDone(true);
-    } else {
+    if (next >= PHRASES.length) { setQuizDone(true); }
+    else {
       setQuizIndex(next);
       setQuiz(generateQuiz(PHRASES, next));
       setSelected(null);
@@ -136,137 +136,305 @@ export default function App() {
     }
   }
 
-  return (
-    <div style={{ minHeight: "100vh", background: "#0A0500", fontFamily: "'Palatino Linotype', Palatino, Georgia, serif", color: "#F5EDD6", overflowX: "hidden" }}>
+  const NAV_ITEMS = [
+    { id: "frasi", icon: "🗣️", label: "Phrases" },
+    { id: "quiz", icon: "🎯", label: "Quiz" },
+    { id: "gesto", icon: "🤌", label: "Gestures" },
+    { id: "cultura", icon: "🔥", label: "Culture" },
+  ];
 
-      {/* HEADER */}
-      <div style={{ background: "linear-gradient(135deg, #C9111A, #8B0000)", padding: "28px 20px 20px", textAlign: "center", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: -30, right: -30, width: 120, height: 120, background: "rgba(255,255,255,0.04)", borderRadius: "50%" }} />
-        <div style={{ fontSize: 36 }}>🇮🇹</div>
-        <h1 style={{ margin: "4px 0 2px", fontSize: 28, fontWeight: "bold", letterSpacing: 1, color: "#FFD98E", textShadow: "0 2px 12px rgba(0,0,0,0.4)" }}>La Dolce Lingua</h1>
-        <p style={{ margin: 0, color: "#FFAA88", fontSize: 13, fontStyle: "italic" }}>Italian for people who want to actually use it 🤌</p>
-        <div style={{ marginTop: 8, fontSize: 12, color: "#FF9999" }}>{practiced.size} / {PHRASES.length} phrases practiced</div>
+  if (screen === "home") {
+    return (
+      <div style={{
+        minHeight: "100vh",
+        background: "#0D0500",
+        fontFamily: "'Palatino Linotype', Palatino, Georgia, serif",
+        color: "#F5EDD6",
+        overflowX: "hidden",
+      }}>
+
+        {/* HERO */}
+        <div style={{
+          position: "relative",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          overflow: "hidden",
+        }}>
+
+          {/* Animated background texture */}
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "linear-gradient(160deg, #1a0800 0%, #3D0C02 30%, #6B2500 60%, #1a0800 100%)",
+            zIndex: 0,
+          }} />
+
+          {/* Grain overlay */}
+          <div style={{
+            position: "absolute", inset: 0, zIndex: 1, opacity: 0.06,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
+          }} />
+
+          {/* Decorative circle */}
+          <div style={{
+            position: "absolute", top: -100, right: -100,
+            width: 400, height: 400,
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(180,80,0,0.25) 0%, transparent 70%)",
+            zIndex: 1,
+          }} />
+          <div style={{
+            position: "absolute", bottom: -80, left: -80,
+            width: 300, height: 300,
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(180,80,0,0.15) 0%, transparent 70%)",
+            zIndex: 1,
+          }} />
+
+          {/* Top bar */}
+          <div style={{ position: "relative", zIndex: 2, padding: "24px 24px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ fontSize: 11, letterSpacing: 3, color: "#A0522D", textTransform: "uppercase" }}>Est. Roma</div>
+            <div style={{ fontSize: 11, letterSpacing: 3, color: "#A0522D", textTransform: "uppercase" }}>🇮🇹 MMXXVI</div>
+          </div>
+
+          {/* Main hero content */}
+          <div style={{ position: "relative", zIndex: 2, textAlign: "center", padding: "0 24px", flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+
+            {/* Decorative line */}
+            <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 24 }}>
+              <div style={{ height: 1, width: 40, background: "linear-gradient(to right, transparent, #C9711A)" }} />
+              <div style={{ fontSize: 13, letterSpacing: 4, color: "#C9711A", textTransform: "uppercase" }}>Impara l'italiano</div>
+              <div style={{ height: 1, width: 40, background: "linear-gradient(to left, transparent, #C9711A)" }} />
+            </div>
+
+            {/* Title */}
+            <h1 style={{
+              fontSize: 52,
+              fontWeight: "bold",
+              margin: "0 0 4px",
+              lineHeight: 1.1,
+              color: "#FFD98E",
+              textShadow: "0 4px 30px rgba(200,100,0,0.4)",
+              letterSpacing: -1,
+            }}>
+              La Dolce
+            </h1>
+            <h1 style={{
+              fontSize: 52,
+              fontWeight: "bold",
+              margin: "0 0 20px",
+              lineHeight: 1.1,
+              fontStyle: "italic",
+              color: "#F5EDD6",
+              textShadow: "0 4px 30px rgba(200,100,0,0.2)",
+              letterSpacing: -1,
+            }}>
+              Lingua
+            </h1>
+
+            <p style={{ color: "#A0724A", fontSize: 15, fontStyle: "italic", margin: "0 0 40px", lineHeight: 1.6 }}>
+              Italian for people who want<br/>to actually live it
+            </p>
+
+            {/* Scene card */}
+            <div style={{
+              background: SCENES[sceneIndex].bg,
+              borderRadius: 20,
+              padding: "28px 20px",
+              marginBottom: 16,
+              border: "1px solid rgba(255,180,80,0.15)",
+              position: "relative",
+              overflow: "hidden",
+            }}>
+              <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.35)" }} />
+              <div style={{ position: "relative", zIndex: 1 }}>
+                <div style={{ fontSize: 48, marginBottom: 10 }}>{SCENES[sceneIndex].icon}</div>
+                <div style={{ fontSize: 13, color: "#F5EDD6", fontStyle: "italic", lineHeight: 1.6, opacity: 0.9 }}>
+                  {SCENES[sceneIndex].label}
+                </div>
+              </div>
+            </div>
+
+            {/* Scene dots */}
+            <div style={{ display: "flex", justifyContent: "center", gap: 6, marginBottom: 40 }}>
+              {SCENES.map((_, i) => (
+                <div key={i} onClick={() => setSceneIndex(i)} style={{
+                  width: i === sceneIndex ? 20 : 8, height: 8,
+                  borderRadius: 4,
+                  background: i === sceneIndex ? "#C9711A" : "#3A1800",
+                  cursor: "pointer", transition: "all 0.3s",
+                }} />
+              ))}
+            </div>
+
+            {/* Stats row */}
+            <div style={{ display: "flex", gap: 12, marginBottom: 40 }}>
+              {[
+                { num: "12", label: "Phrases" },
+                { num: "5", label: "Gestures" },
+                { num: "6", label: "Culture\nShocks" },
+              ].map((s, i) => (
+                <div key={i} style={{
+                  flex: 1,
+                  background: "rgba(255,150,50,0.07)",
+                  border: "1px solid rgba(255,150,50,0.15)",
+                  borderRadius: 14,
+                  padding: "14px 8px",
+                  textAlign: "center",
+                }}>
+                  <div style={{ fontSize: 24, fontWeight: "bold", color: "#FFD98E" }}>{s.num}</div>
+                  <div style={{ fontSize: 11, color: "#A0724A", whiteSpace: "pre-line", lineHeight: 1.3 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom section — navigation cards */}
+          <div style={{ position: "relative", zIndex: 2, padding: "0 20px 32px" }}>
+
+            {/* Main CTA */}
+            <button onClick={() => { setScreen("app"); setTab("frasi"); }} style={{
+              width: "100%",
+              background: "linear-gradient(135deg, #C9111A, #8B0000)",
+              border: "none",
+              borderRadius: 16,
+              padding: "18px",
+              color: "#FFD98E",
+              fontSize: 17,
+              fontWeight: "bold",
+              cursor: "pointer",
+              fontFamily: "inherit",
+              letterSpacing: 1,
+              marginBottom: 12,
+              boxShadow: "0 8px 32px rgba(180,0,0,0.4)",
+            }}>
+              Iniziamo — Let's Begin 🇮🇹
+            </button>
+
+            {/* Quick access cards */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              {[
+                { icon: "🎯", label: "Quiz", tab: "quiz", desc: "Test yourself" },
+                { icon: "🤌", label: "Gestures", tab: "gesto", desc: "Talk Italian" },
+                { icon: "🔥", label: "Culture", tab: "cultura", desc: "Real Italy" },
+                { icon: "🗣️", label: "Phrases", tab: "frasi", desc: "Start learning" },
+              ].map((item, i) => (
+                <button key={i} onClick={() => { setScreen("app"); setTab(item.tab); if (item.tab === "quiz") startQuiz(); }} style={{
+                  background: "rgba(255,150,50,0.06)",
+                  border: "1px solid rgba(255,150,50,0.15)",
+                  borderRadius: 14,
+                  padding: "14px 12px",
+                  cursor: "pointer",
+                  textAlign: "left",
+                  fontFamily: "inherit",
+                }}>
+                  <div style={{ fontSize: 22, marginBottom: 4 }}>{item.icon}</div>
+                  <div style={{ fontSize: 13, fontWeight: "bold", color: "#F5EDD6" }}>{item.label}</div>
+                  <div style={{ fontSize: 11, color: "#A0724A", fontStyle: "italic" }}>{item.desc}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // APP SCREEN
+  return (
+    <div style={{ minHeight: "100vh", background: "#0A0500", fontFamily: "'Palatino Linotype', Palatino, Georgia, serif", color: "#F5EDD6" }}>
+
+      {/* Header */}
+      <div style={{ background: "linear-gradient(135deg, #C9111A, #8B0000)", padding: "16px 20px", display: "flex", alignItems: "center", gap: 12 }}>
+        <button onClick={() => setScreen("home")} style={{ background: "rgba(0,0,0,0.3)", border: "none", borderRadius: 10, padding: "6px 12px", color: "#FFD98E", fontSize: 16, cursor: "pointer", fontFamily: "inherit" }}>← Home</button>
+        <div>
+          <div style={{ fontSize: 16, fontWeight: "bold", color: "#FFD98E", fontStyle: "italic" }}>La Dolce Lingua</div>
+          <div style={{ fontSize: 11, color: "#FFAA88" }}>{practiced.size}/{PHRASES.length} phrases practiced</div>
+        </div>
       </div>
 
-      {/* TABS */}
+      {/* Tabs */}
       <div style={{ display: "flex", background: "#150800", borderBottom: "2px solid #2A1500" }}>
-        {[
-          { id: "frasi", label: "🗣️ Phrases" },
-          { id: "quiz", label: "🎯 Quiz" },
-          { id: "gesto", label: "🤌 Gestures" },
-          { id: "cultura", label: "🔥 Culture" },
-        ].map(t => (
-          <button key={t.id} onClick={() => { setTab(t.id); if (t.id === "quiz" && !quizActive) startQuiz(); }} style={{
-            flex: 1, padding: "13px 4px", background: "none", border: "none",
+        {NAV_ITEMS.map(t => (
+          <button key={t.id} onClick={() => { setTab(t.id); if (t.id === "quiz" && !quiz) startQuiz(); }} style={{
+            flex: 1, padding: "12px 4px", background: "none", border: "none",
             borderBottom: tab === t.id ? "3px solid #C9111A" : "3px solid transparent",
             color: tab === t.id ? "#FFD98E" : "#886655",
             fontWeight: tab === t.id ? "bold" : "normal",
-            fontSize: 12, cursor: "pointer", fontFamily: "inherit", transition: "all 0.2s",
-          }}>{t.label}</button>
+            fontSize: 11, cursor: "pointer", fontFamily: "inherit",
+          }}>{t.icon}<br/>{t.label}</button>
         ))}
       </div>
 
       <div style={{ maxWidth: 440, margin: "0 auto", padding: "24px 18px" }}>
 
-        {/* PHRASES TAB */}
+        {/* PHRASES */}
         {tab === "frasi" && (
           <div>
             <div style={{ background: "linear-gradient(160deg, #1C0A00, #2A1200)", border: "1px solid #5A2800", borderRadius: 20, padding: 24, marginBottom: 16, position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: 0, right: 0, width: 80, height: 80, background: `radial-gradient(circle, ${DRAMA_COLORS[phrase.drama]}33 0%, transparent 70%)`, borderRadius: "0 20px 0 80px" }} />
-              <div style={{ display: "inline-block", background: "#2A1500", border: "1px solid #5A2800", borderRadius: 20, padding: "3px 10px", fontSize: 11, color: "#FF9955", marginBottom: 16, letterSpacing: 1 }}>
-                {phrase.category.toUpperCase()}
-              </div>
+              <div style={{ display: "inline-block", background: "#2A1500", border: "1px solid #5A2800", borderRadius: 20, padding: "3px 10px", fontSize: 11, color: "#FF9955", marginBottom: 16, letterSpacing: 1 }}>{phrase.category.toUpperCase()}</div>
               <div style={{ marginBottom: 20 }}>
                 <div style={{ fontSize: 11, color: "#886644", marginBottom: 6, letterSpacing: 1, textTransform: "uppercase" }}>English</div>
                 <div style={{ fontSize: 20, color: "#F5EDD6", fontWeight: "bold", lineHeight: 1.4 }}>{phrase.en}</div>
               </div>
               {!showIt ? (
-                <button onClick={() => setShowIt(true)} style={{ background: "#C9111A", border: "none", borderRadius: 12, padding: "14px 20px", color: "#fff", fontWeight: "bold", fontSize: 15, cursor: "pointer", width: "100%", fontFamily: "inherit" }}>
-                  Show Italian 👁️
-                </button>
+                <button onClick={() => setShowIt(true)} style={{ background: "#C9111A", border: "none", borderRadius: 12, padding: "14px 20px", color: "#fff", fontWeight: "bold", fontSize: 15, cursor: "pointer", width: "100%", fontFamily: "inherit" }}>Show Italian 👁️</button>
               ) : (
                 <div>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
                     <div style={{ fontSize: 11, color: "#886644", letterSpacing: 1, textTransform: "uppercase" }}>Italian</div>
-                    <button onClick={() => handleSpeak(phrase.it)} style={{
-                      background: speaking ? "#5A2800" : "#2A1500",
-                      border: "1px solid #5A2800", borderRadius: 20, padding: "4px 12px",
-                      color: speaking ? "#FFD98E" : "#FF9955", fontSize: 12, cursor: "pointer", fontFamily: "inherit",
-                      display: "flex", alignItems: "center", gap: 5,
-                    }}>
+                    <button onClick={() => { setSpeaking(true); handleSpeak(phrase.it); }} style={{ background: speaking ? "#5A2800" : "#2A1500", border: "1px solid #5A2800", borderRadius: 20, padding: "4px 12px", color: speaking ? "#FFD98E" : "#FF9955", fontSize: 12, cursor: "pointer", fontFamily: "inherit" }}>
                       {speaking ? "🔊 Playing..." : "🔊 Listen"}
                     </button>
                   </div>
                   <div style={{ fontSize: 24, color: "#FFD98E", fontStyle: "italic", fontWeight: "bold", marginBottom: 16, lineHeight: 1.4 }}>{phrase.it}</div>
-                  <div style={{ background: "#100500", border: "1px solid #3A1800", borderRadius: 10, padding: "10px 14px", fontSize: 13, color: "#CC9966", fontStyle: "italic", marginBottom: 20 }}>
-                    💡 {phrase.tip}
-                  </div>
+                  <div style={{ background: "#100500", border: "1px solid #3A1800", borderRadius: 10, padding: "10px 14px", fontSize: 13, color: "#CC9966", fontStyle: "italic", marginBottom: 20 }}>💡 {phrase.tip}</div>
                   <div style={{ marginBottom: 16 }}><DramaMeter level={phrase.drama} /></div>
                 </div>
               )}
             </div>
             {showIt && (
               <div style={{ display: "flex", gap: 10 }}>
-                <button onClick={() => { setPhraseIndex((phraseIndex + 1) % PHRASES.length); setShowIt(false); }} style={{ flex: 1, background: "#1C0A00", border: "1px solid #5A2800", borderRadius: 12, padding: "14px", color: "#886644", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>
-                  Skip →
-                </button>
-                <button onClick={markPracticed} style={{ flex: 2, background: "linear-gradient(135deg, #2D6A4F, #1B4332)", border: "none", borderRadius: 12, padding: "14px", color: "#95D5B2", fontWeight: "bold", fontSize: 15, cursor: "pointer", fontFamily: "inherit" }}>
-                  ✓ Got it!
-                </button>
+                <button onClick={() => { setPhraseIndex((phraseIndex + 1) % PHRASES.length); setShowIt(false); }} style={{ flex: 1, background: "#1C0A00", border: "1px solid #5A2800", borderRadius: 12, padding: "14px", color: "#886644", fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}>Skip →</button>
+                <button onClick={markPracticed} style={{ flex: 2, background: "linear-gradient(135deg, #2D6A4F, #1B4332)", border: "none", borderRadius: 12, padding: "14px", color: "#95D5B2", fontWeight: "bold", fontSize: 15, cursor: "pointer", fontFamily: "inherit" }}>✓ Got it!</button>
               </div>
             )}
             <div style={{ display: "flex", justifyContent: "center", gap: 6, marginTop: 20 }}>
               {PHRASES.map((_, i) => (
-                <div key={i} onClick={() => { setPhraseIndex(i); setShowIt(false); }} style={{
-                  width: practiced.has(i) ? 10 : 8, height: practiced.has(i) ? 10 : 8,
-                  borderRadius: "50%",
-                  background: i === phraseIndex ? "#C9111A" : practiced.has(i) ? "#2D6A4F" : "#3A1800",
-                  cursor: "pointer", transition: "all 0.2s",
-                }} />
+                <div key={i} onClick={() => { setPhraseIndex(i); setShowIt(false); }} style={{ width: practiced.has(i) ? 10 : 8, height: practiced.has(i) ? 10 : 8, borderRadius: "50%", background: i === phraseIndex ? "#C9111A" : practiced.has(i) ? "#2D6A4F" : "#3A1800", cursor: "pointer", transition: "all 0.2s" }} />
               ))}
             </div>
           </div>
         )}
 
-        {/* QUIZ TAB */}
+        {/* QUIZ */}
         {tab === "quiz" && (
           <div>
             {quizDone ? (
               <div style={{ textAlign: "center" }}>
-                <div style={{ fontSize: 64, marginBottom: 16 }}>
-                  {score.correct >= PHRASES.length * 0.8 ? "🏆" : score.correct >= PHRASES.length * 0.5 ? "👍" : "💪"}
-                </div>
+                <div style={{ fontSize: 64, marginBottom: 16 }}>{score.correct >= PHRASES.length * 0.8 ? "🏆" : score.correct >= PHRASES.length * 0.5 ? "👍" : "💪"}</div>
                 <h2 style={{ color: "#FFD98E", fontSize: 26, margin: "0 0 8px" }}>Quiz Complete!</h2>
-                <div style={{ fontSize: 40, fontWeight: "bold", color: "#C9111A", margin: "12px 0" }}>
-                  {score.correct} / {PHRASES.length}
-                </div>
+                <div style={{ fontSize: 40, fontWeight: "bold", color: "#C9111A", margin: "12px 0" }}>{score.correct} / {PHRASES.length}</div>
                 <div style={{ color: "#886644", fontStyle: "italic", marginBottom: 30, fontSize: 15 }}>
-                  {score.correct >= PHRASES.length * 0.8 ? "Bravissimo! You're basically Italian now 🤌" :
-                   score.correct >= PHRASES.length * 0.5 ? "Non c'è male! Keep practicing 💪" :
-                   "Practice the phrases first, then try again!"}
+                  {score.correct >= PHRASES.length * 0.8 ? "Bravissimo! You're basically Italian now 🤌" : score.correct >= PHRASES.length * 0.5 ? "Non c'è male! Keep practicing 💪" : "Practice the phrases first, then try again!"}
                 </div>
-                <button onClick={startQuiz} style={{ background: "#C9111A", border: "none", borderRadius: 14, padding: "16px 32px", color: "#fff", fontWeight: "bold", fontSize: 16, cursor: "pointer", fontFamily: "inherit", width: "100%" }}>
-                  Try Again 🔄
-                </button>
+                <button onClick={startQuiz} style={{ background: "#C9111A", border: "none", borderRadius: 14, padding: "16px 32px", color: "#fff", fontWeight: "bold", fontSize: 16, cursor: "pointer", fontFamily: "inherit", width: "100%" }}>Try Again 🔄</button>
               </div>
             ) : quiz ? (
               <div>
-                {/* Progress */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
                   <div style={{ fontSize: 13, color: "#886644" }}>Question {quizIndex + 1} of {PHRASES.length}</div>
                   <div style={{ fontSize: 13, color: "#95D5B2", fontWeight: "bold" }}>✓ {score.correct} correct</div>
                 </div>
                 <div style={{ height: 4, background: "#1E0800", borderRadius: 4, marginBottom: 24 }}>
-                  <div style={{ height: "100%", width: `${((quizIndex) / PHRASES.length) * 100}%`, background: "#C9111A", borderRadius: 4, transition: "width 0.4s" }} />
+                  <div style={{ height: "100%", width: `${(quizIndex / PHRASES.length) * 100}%`, background: "#C9111A", borderRadius: 4, transition: "width 0.4s" }} />
                 </div>
-
-                {/* Question */}
                 <div style={{ background: "linear-gradient(160deg, #1C0A00, #2A1200)", border: "1px solid #5A2800", borderRadius: 20, padding: 24, marginBottom: 20, textAlign: "center" }}>
                   <div style={{ fontSize: 11, color: "#886644", marginBottom: 10, letterSpacing: 1, textTransform: "uppercase" }}>How do you say this in Italian?</div>
                   <div style={{ fontSize: 21, fontWeight: "bold", color: "#F5EDD6", lineHeight: 1.4 }}>{quiz.correct.en}</div>
                 </div>
-
-                {/* Options */}
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 }}>
                   {quiz.options.map((option, i) => {
                     let bg = "#1C0A00", border = "#3A1800", color = "#F5EDD6";
@@ -275,58 +443,41 @@ export default function App() {
                       else if (option === selected) { bg = "#4A1010"; border = "#E63946"; color = "#FF6B6B"; }
                     }
                     return (
-                      <button key={i} onClick={() => handleQuizAnswer(option)} style={{
-                        background: bg, border: `2px solid ${border}`, borderRadius: 14,
-                        padding: "15px 18px", color, fontSize: 15, fontStyle: "italic",
-                        cursor: selected ? "default" : "pointer", textAlign: "left",
-                        transition: "all 0.25s", fontFamily: "inherit",
-                      }}>
+                      <button key={i} onClick={() => handleQuizAnswer(option)} style={{ background: bg, border: `2px solid ${border}`, borderRadius: 14, padding: "15px 18px", color, fontSize: 15, fontStyle: "italic", cursor: selected ? "default" : "pointer", textAlign: "left", transition: "all 0.25s", fontFamily: "inherit" }}>
                         {option}
                         {selected && option === quiz.correct.it && (
-                          <button onClick={(e) => { e.stopPropagation(); handleSpeak(option); }} style={{
-                            float: "right", background: "none", border: "none", color: "#95D5B2",
-                            fontSize: 16, cursor: "pointer", padding: 0,
-                          }}>🔊</button>
+                          <button onClick={(e) => { e.stopPropagation(); speakItalian(option); }} style={{ float: "right", background: "none", border: "none", color: "#95D5B2", fontSize: 16, cursor: "pointer", padding: 0 }}>🔊</button>
                         )}
                       </button>
                     );
                   })}
                 </div>
-
                 {quizResult && (
                   <div>
                     <div style={{ textAlign: "center", fontSize: 16, fontWeight: "bold", color: quizResult === "correct" ? "#95D5B2" : "#FF6B6B", marginBottom: 12 }}>
                       {quizResult === "correct" ? "✓ Esatto! Perfetto!" : `✗ Not quite — it was: ${quiz.correct.it}`}
                     </div>
-                    <div style={{ background: "#100500", border: "1px solid #3A1800", borderRadius: 12, padding: "10px 14px", fontSize: 13, color: "#CC9966", fontStyle: "italic", marginBottom: 14 }}>
-                      💡 {quiz.correct.tip}
-                    </div>
+                    <div style={{ background: "#100500", border: "1px solid #3A1800", borderRadius: 12, padding: "10px 14px", fontSize: 13, color: "#CC9966", fontStyle: "italic", marginBottom: 14 }}>💡 {quiz.correct.tip}</div>
                     <button onClick={nextQuizQuestion} style={{ background: "#C9111A", border: "none", borderRadius: 14, padding: "15px", color: "#fff", fontWeight: "bold", fontSize: 16, cursor: "pointer", width: "100%", fontFamily: "inherit" }}>
                       {quizIndex + 1 >= PHRASES.length ? "See Results 🏆" : "Next Question →"}
                     </button>
                   </div>
                 )}
               </div>
-            ) : null}
+            ) : <button onClick={startQuiz} style={{ background: "#C9111A", border: "none", borderRadius: 14, padding: 16, color: "#fff", fontWeight: "bold", fontSize: 16, cursor: "pointer", width: "100%", fontFamily: "inherit" }}>Start Quiz 🎯</button>}
           </div>
         )}
 
-        {/* GESTURES TAB */}
+        {/* GESTURES */}
         {tab === "gesto" && (
           <div>
-            <p style={{ color: "#886644", fontSize: 14, fontStyle: "italic", marginTop: 0, marginBottom: 20, textAlign: "center" }}>
-              Italians say more with their hands than with words. Learn the real language.
-            </p>
+            <p style={{ color: "#886644", fontSize: 14, fontStyle: "italic", marginTop: 0, marginBottom: 20, textAlign: "center" }}>Italians say more with their hands than with words.</p>
             <div style={{ background: "linear-gradient(160deg, #1C0A00, #2A1200)", border: "1px solid #5A2800", borderRadius: 20, padding: 28, textAlign: "center", marginBottom: 16 }}>
               <div style={{ fontSize: 72, marginBottom: 12 }}>{GESTURES[gestureIndex].emoji}</div>
               <h2 style={{ margin: "0 0 6px", fontSize: 26, color: "#FFD98E", fontStyle: "italic" }}>"{GESTURES[gestureIndex].name}"</h2>
-              <div style={{ fontSize: 18, color: "#FF9955", fontWeight: "bold", marginBottom: 20 }}>{GESTURES[gestureIndex].meaning}</div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
-                <button onClick={() => handleSpeak(GESTURES[gestureIndex].name)} style={{ background: "#2A1500", border: "1px solid #5A2800", borderRadius: 20, padding: "6px 16px", color: "#FF9955", fontSize: 13, cursor: "pointer", fontFamily: "inherit" }}>
-                  🔊 Hear it
-                </button>
-              </div>
-              <div style={{ background: "#100500", borderRadius: 14, padding: "14px 16px", marginBottom: 14, textAlign: "left" }}>
+              <div style={{ fontSize: 18, color: "#FF9955", fontWeight: "bold", marginBottom: 16 }}>{GESTURES[gestureIndex].meaning}</div>
+              <button onClick={() => speakItalian(GESTURES[gestureIndex].name)} style={{ background: "#2A1500", border: "1px solid #5A2800", borderRadius: 20, padding: "6px 16px", color: "#FF9955", fontSize: 13, cursor: "pointer", fontFamily: "inherit", marginBottom: 16 }}>🔊 Hear it</button>
+              <div style={{ background: "#100500", borderRadius: 14, padding: "14px 16px", marginBottom: 10, textAlign: "left" }}>
                 <div style={{ fontSize: 11, color: "#886644", marginBottom: 4, letterSpacing: 1, textTransform: "uppercase" }}>When to use</div>
                 <div style={{ fontSize: 14, color: "#F5EDD6" }}>{GESTURES[gestureIndex].when}</div>
               </div>
@@ -343,12 +494,10 @@ export default function App() {
           </div>
         )}
 
-        {/* CULTURE TAB */}
+        {/* CULTURE */}
         {tab === "cultura" && (
           <div>
-            <p style={{ color: "#886644", fontSize: 14, fontStyle: "italic", marginTop: 0, marginBottom: 20, textAlign: "center" }}>
-              Understand Italians from the inside out 🔥
-            </p>
+            <p style={{ color: "#886644", fontSize: 14, fontStyle: "italic", marginTop: 0, marginBottom: 20, textAlign: "center" }}>Understand Italians from the inside out 🔥</p>
             <div style={{ background: "linear-gradient(160deg, #1C0A00, #2A1200)", border: "1px solid #5A2800", borderRadius: 20, padding: 24, marginBottom: 16 }}>
               <div style={{ fontSize: 52, textAlign: "center", marginBottom: 12 }}>{CULTURA_SHOCKS[culturaIndex].emoji}</div>
               <h2 style={{ margin: "0 0 14px", fontSize: 22, color: "#FFD98E", textAlign: "center" }}>{CULTURA_SHOCKS[culturaIndex].title}</h2>
@@ -360,12 +509,12 @@ export default function App() {
             </div>
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={() => setCulturaIndex((culturaIndex - 1 + CULTURA_SHOCKS.length) % CULTURA_SHOCKS.length)} style={{ flex: 1, background: "#1C0A00", border: "1px solid #5A2800", borderRadius: 12, padding: 14, color: "#886644", fontSize: 20, cursor: "pointer" }}>←</button>
-              <div style={{ flex: 2, display: "flex", alignItems: "center", justifyContent: "center", color: "#886644", fontSize: 13 }}>{culturaIndex + 1} / {CULTURA_SHOCKS.length} culture shocks</div>
+              <div style={{ flex: 2, display: "flex", alignItems: "center", justifyContent: "center", color: "#886644", fontSize: 13 }}>{culturaIndex + 1} / {CULTURA_SHOCKS.length}</div>
               <button onClick={() => setCulturaIndex((culturaIndex + 1) % CULTURA_SHOCKS.length)} style={{ flex: 1, background: "#C9111A", border: "none", borderRadius: 12, padding: 14, color: "#fff", fontSize: 20, cursor: "pointer" }}>→</button>
             </div>
             <div style={{ display: "flex", justifyContent: "center", gap: 6, marginTop: 16 }}>
               {CULTURA_SHOCKS.map((_, i) => (
-                <div key={i} onClick={() => setCulturaIndex(i)} style={{ width: 8, height: 8, borderRadius: "50%", background: i === culturaIndex ? "#C9111A" : "#3A1800", cursor: "pointer", transition: "background 0.2s" }} />
+                <div key={i} onClick={() => setCulturaIndex(i)} style={{ width: 8, height: 8, borderRadius: "50%", background: i === culturaIndex ? "#C9111A" : "#3A1800", cursor: "pointer" }} />
               ))}
             </div>
           </div>
