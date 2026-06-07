@@ -29,15 +29,14 @@ interface GestureQuestion {
   tip: string
 }
 
-// ─── IMAGE PATHS ─────────────────────────────────────────────────────────────
-// Place your images in /public/images/ and update these paths
+//// ─── IMAGE PATHS ─────────────────────────────────────────────────────────────
 const IMG = {
-  hero:        '/images/hero-piazza.png',       // the Pixar-style street scene
-  mascot:      '/images/mascot-woman.png',       // woman at café table
-  caffe:       '/images/caffe-bar.png',          // espresso bar interior
-  passeggiata: '/images/passeggiata.png',        // evening stroll street scene
-  pranzo:      '/images/pranzo-family.png',      // family lunch under pergola
-  gesture:     '/images/gesture-man.png',        // man with espresso & gesture
+  hero:        '/hero-piazza.png',
+  mascot:      '/mascot-woman.png',
+  caffe:       '/caffe-bar.png',
+  passeggiata: '/passeggiata.png',
+  pranzo:      '/pranzo-family.png',
+  gesture:     '/gesture-man.png',
 }
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
