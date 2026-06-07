@@ -1,4 +1,10 @@
 import { useState } from 'react'
+import heroImg from './assets/hero-piazza.png'
+import mascotImg from './assets/mascot-woman.png'
+import caffeImg from './assets/caffe-bar.png'
+import passeggiataImg from './assets/passeggiata.png'
+import pranzoImg from './assets/pranzo-family.png'
+import gestureImg from './assets/gesture-man.png'
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 type Page = 'home' | 'flashcards' | 'quiz'
@@ -29,14 +35,14 @@ interface GestureQuestion {
   tip: string
 }
 
-//// ─── IMAGE PATHS ─────────────────────────────────────────────────────────────
+// ─── IMAGE PATHS ─────────────────────────────────────────────────────────────
 const IMG = {
-  hero:        '/hero-piazza.png',
-  mascot:      '/mascot-woman.png',
-  caffe:       '/caffe-bar.png',
-  passeggiata: '/passeggiata.png',
-  pranzo:      '/pranzo-family.png',
-  gesture:     '/gesture-man.png',
+  hero:        heroImg,
+  mascot:      mascotImg,
+  caffe:       caffeImg,
+  passeggiata: passeggiataImg,
+  pranzo:      pranzoImg,
+  gesture:     gestureImg,
 }
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
@@ -87,7 +93,7 @@ const DECKS: Record<DeckKey, Card[]> = {
     { word: 'di primo acchito', phonetic: '/di ˈpri.mo akˈki.to/', translation: 'at first glance / right away', category: 'Idiom · B2', example: '"Di primo acchito non mi era piaciuto." — At first, I hadn\'t liked it.', cultureNote: 'Italian idioms at B2 reveal the true personality of the language — playful, precise, poetic. Acchito comes from billiards: the opening shot.' },
     { word: 'a prescindere da', phonetic: '/a preˈʃin.de.re da/', translation: 'regardless of / aside from', category: 'Phrase · B2', example: '"A prescindere dal tempo, partiremo." — Regardless of the weather, we\'ll leave.', cultureNote: 'Mastering fixed phrases like this is the bridge between intermediate and advanced Italian — the difference that makes you sound educated.' },
     { word: 'contraddistinguere', phonetic: '/kon.trad.disˈtiŋ.ɡwe.re/', translation: 'to distinguish / characterise', category: 'Verb · B2', example: '"Lo stile che lo contraddistingue." — The style that sets him apart.', cultureNote: 'Long compound verbs like this one are the hallmark of formal Italian writing. Mastering them unlocks newspapers, literature, and academia.' },
-    { word: 'nell\'ambito di', phonetic: '/nel.ˈlam.bi.to di/', translation: 'within the scope of / in the field of', category: 'Phrase · B2 formal', example: '"Nell\'ambito della cultura italiana." — Within the scope of Italian culture.', cultureNote: 'This phrase is everywhere in Italian academic and professional writing. It signals precision and formality — essential at C1 level.' },
+    { word: "nell'ambito di", phonetic: '/nel.ˈlam.bi.to di/', translation: 'within the scope of / in the field of', category: 'Phrase · B2 formal', example: '"Nell\'ambito della cultura italiana." — Within the scope of Italian culture.', cultureNote: 'This phrase is everywhere in Italian academic and professional writing. It signals precision and formality — essential at C1 level.' },
   ],
 }
 
@@ -101,11 +107,11 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
 ]
 
 const GESTURE_QUESTIONS: GestureQuestion[] = [
-  { emoji: '🤌', italian: 'Ma che vuoi?', phonetic: '/ma ke ˈvwɔi/', options: ['What do you want?', 'I love it!', 'No problem', 'Let\'s go!'], answer: 0, tip: 'The pinched fingers — ma che vuoi? — is Italy\'s most famous gesture. It means "what do you want?" or pure exasperation, depending on speed and context.' },
+  { emoji: '🤌', italian: 'Ma che vuoi?', phonetic: '/ma ke ˈvwɔi/', options: ['What do you want?', 'I love it!', 'No problem', "Let's go!"], answer: 0, tip: 'The pinched fingers — ma che vuoi? — is Italy\'s most famous gesture. It means "what do you want?" or pure exasperation, depending on speed and context.' },
   { emoji: '✋', italian: 'Piano piano', phonetic: '/ˈpja.no ˈpja.no/', options: ['Very fast', 'Slowly, slowly', 'Long ago', 'Far away'], answer: 1, tip: 'Piano piano — slowly slowly — is a full Italian philosophy. A flat hand moving gently downward signals "calm down, take it easy."' },
   { emoji: '👁️', italian: 'Occhio!', phonetic: '/ˈɔk.kjo/', options: ['Look at that!', 'Watch out!', 'How beautiful!', 'I understand'], answer: 1, tip: 'Pulling the lower eyelid down — occhio! (eye!) — means "be careful" or "watch out". A friendly warning between friends.' },
-  { emoji: '🤌', italian: 'Che buono!', phonetic: '/ke ˈbwɔ.no/', options: ['How ugly!', 'How delicious!', 'I\'m full', 'What a mess!'], answer: 1, tip: 'Fingers pressed to lips then opened outward — the chef\'s kiss. Che buono! means "how delicious!" — for food, wine, anything wonderful.' },
-  { emoji: '🖐️', italian: 'Me ne frego', phonetic: '/me ne ˈfrɛ.ɡo/', options: ['I agree completely', 'I don\'t care at all', 'Very good!', 'Come here'], answer: 1, tip: 'The chin flick paired with me ne frego signals total dismissal. From menefreghismo — the Italian art of not caring. Use only with close friends!' },
+  { emoji: '🤌', italian: 'Che buono!', phonetic: '/ke ˈbwɔ.no/', options: ['How ugly!', 'How delicious!', "I'm full", 'What a mess!'], answer: 1, tip: "Fingers pressed to lips then opened outward — the chef's kiss. Che buono! means \"how delicious!\" — for food, wine, anything wonderful." },
+  { emoji: '🖐️', italian: 'Me ne frego', phonetic: '/me ne ˈfrɛ.ɡo/', options: ['I agree completely', "I don't care at all", 'Very good!', 'Come here'], answer: 1, tip: 'The chin flick paired with me ne frego signals total dismissal. From menefreghismo — the Italian art of not caring. Use only with close friends!' },
 ]
 
 // ─── STYLES ──────────────────────────────────────────────────────────────────
@@ -139,317 +145,67 @@ const css = `
     min-height: 100vh;
   }
 
-  /* ── NAV ── */
-  .nav {
-    background: var(--cr);
-    border-bottom: 1.5px solid var(--bd);
-    padding: 0 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 62px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+  .nav { background: var(--cr); border-bottom: 1.5px solid var(--bd); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 62px; position: sticky; top: 0; z-index: 100; }
   .nav-logo-wrap { display: flex; align-items: center; gap: 12px; }
-  .nav-avatar {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid var(--bd);
-    flex-shrink: 0;
-    background: var(--tl);
-  }
+  .nav-avatar { width: 38px; height: 38px; border-radius: 50%; overflow: hidden; border: 2px solid var(--bd); flex-shrink: 0; background: var(--tl); }
   .nav-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
-  .nav-logo {
-    font-family: var(--font-serif);
-    font-size: 1.35rem;
-    color: var(--t);
-    font-style: italic;
-    line-height: 1;
-    cursor: pointer;
-  }
-  .nav-logo small {
-    display: block;
-    font-family: var(--font-sans);
-    font-size: 0.58rem;
-    letter-spacing: 0.18em;
-    color: var(--fa);
-    font-style: normal;
-    text-transform: uppercase;
-    margin-top: 2px;
-    font-weight: 400;
-  }
+  .nav-logo { font-family: var(--font-serif); font-size: 1.35rem; color: var(--t); font-style: italic; line-height: 1; cursor: pointer; }
+  .nav-logo small { display: block; font-family: var(--font-sans); font-size: 0.58rem; letter-spacing: 0.18em; color: var(--fa); font-style: normal; text-transform: uppercase; margin-top: 2px; font-weight: 400; }
   .nav-tabs { display: flex; gap: 3px; }
-  .nav-tab {
-    font-size: 0.8rem;
-    font-weight: 500;
-    padding: 6px 14px;
-    border-radius: 7px;
-    border: none;
-    background: transparent;
-    color: var(--mu);
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: var(--font-sans);
-  }
+  .nav-tab { font-size: 0.8rem; font-weight: 500; padding: 6px 14px; border-radius: 7px; border: none; background: transparent; color: var(--mu); cursor: pointer; transition: all 0.15s; font-family: var(--font-sans); }
   .nav-tab:hover { background: var(--tl); color: var(--t); }
   .nav-tab.active { background: var(--t); color: #fff; }
   .nav-right { display: flex; align-items: center; gap: 8px; }
-  .streak-badge {
-    background: var(--gl);
-    border: 1px solid #E8CC8A;
-    color: #7A4E08;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 5px 13px;
-    border-radius: 20px;
-  }
-  .xp-badge {
-    background: var(--tl);
-    border: 1px solid var(--bd);
-    color: var(--t);
-    font-size: 0.72rem;
-    font-weight: 500;
-    padding: 5px 13px;
-    border-radius: 20px;
-  }
+  .streak-badge { background: var(--gl); border: 1px solid #E8CC8A; color: #7A4E08; font-size: 0.72rem; font-weight: 600; padding: 5px 13px; border-radius: 20px; }
+  .xp-badge { background: var(--tl); border: 1px solid var(--bd); color: var(--t); font-size: 0.72rem; font-weight: 500; padding: 5px 13px; border-radius: 20px; }
 
-  /* ── HERO ── */
-  .hero {
-    position: relative;
-    height: 420px;
-    overflow: hidden;
-  }
-  .hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    display: block;
-  }
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to right,
-      rgba(26,18,8,0.75) 0%,
-      rgba(26,18,8,0.55) 45%,
-      rgba(26,18,8,0.05) 100%
-    );
-  }
-  .hero-content {
-    position: absolute;
-    top: 0; left: 0;
-    height: 100%;
-    width: 58%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 44px 48px;
-  }
-  .eyebrow {
-    font-size: 0.62rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 10px;
-    font-weight: 500;
-  }
-  .hero-h1 {
-    font-family: var(--font-serif);
-    font-size: 3rem;
-    line-height: 1.1;
-    color: #fff;
-    margin-bottom: 18px;
-  }
+  .hero { position: relative; height: 420px; overflow: hidden; }
+  .hero-img { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; }
+  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(26,18,8,0.75) 0%, rgba(26,18,8,0.55) 45%, rgba(26,18,8,0.05) 100%); }
+  .hero-content { position: absolute; top: 0; left: 0; height: 100%; width: 58%; display: flex; flex-direction: column; justify-content: center; padding: 44px 48px; }
+  .eyebrow { font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 10px; font-weight: 500; }
+  .hero-h1 { font-family: var(--font-serif); font-size: 3rem; line-height: 1.1; color: #fff; margin-bottom: 18px; }
   .hero-h1 em { color: #F5C87A; font-style: italic; }
-  .passport-quote {
-    font-family: var(--font-serif);
-    font-size: 0.9rem;
-    font-style: italic;
-    color: rgba(255,255,255,0.82);
-    line-height: 1.7;
-    margin-bottom: 24px;
-    padding-left: 14px;
-    border-left: 2px solid #F5C87A;
-    max-width: 380px;
-  }
-  .hero-cta {
-    background: var(--t);
-    color: #fff;
-    border: none;
-    padding: 12px 28px;
-    border-radius: 10px;
-    font-family: var(--font-sans);
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    align-self: flex-start;
-    transition: all 0.2s;
-  }
+  .passport-quote { font-family: var(--font-serif); font-size: 0.9rem; font-style: italic; color: rgba(255,255,255,0.82); line-height: 1.7; margin-bottom: 24px; padding-left: 14px; border-left: 2px solid #F5C87A; max-width: 380px; }
+  .hero-cta { background: var(--t); color: #fff; border: none; padding: 12px 28px; border-radius: 10px; font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; transition: all 0.2s; }
   .hero-cta:hover { background: #8C3506; transform: translateY(-2px); }
-  .hero-badge {
-    position: absolute;
-    bottom: 22px;
-    right: 28px;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 12px;
-    padding: 10px 18px;
-    text-align: center;
-    backdrop-filter: blur(6px);
-  }
-  .hero-badge-val {
-    font-family: var(--font-serif);
-    font-size: 1.6rem;
-    color: #fff;
-    font-weight: 600;
-    line-height: 1;
-  }
-  .hero-badge-lbl {
-    font-size: 0.58rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.7);
-    margin-top: 2px;
-  }
+  .hero-badge { position: absolute; bottom: 22px; right: 28px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 12px; padding: 10px 18px; text-align: center; backdrop-filter: blur(6px); }
+  .hero-badge-val { font-family: var(--font-serif); font-size: 1.6rem; color: #fff; font-weight: 600; line-height: 1; }
+  .hero-badge-lbl { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-top: 2px; }
 
-  /* ── STATS ROW ── */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-bottom: 1.5px solid var(--bd);
-    background: #fff;
-  }
-  .stat {
-    padding: 16px 20px;
-    text-align: center;
-    border-right: 1px solid var(--bd);
-  }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1.5px solid var(--bd); background: #fff; }
+  .stat { padding: 16px 20px; text-align: center; border-right: 1px solid var(--bd); }
   .stat:last-child { border-right: none; }
-  .stat-val {
-    font-family: var(--font-serif);
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--ink);
-    line-height: 1;
-  }
-  .stat-lbl {
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--fa);
-    margin-top: 4px;
-  }
+  .stat-val { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 600; color: var(--ink); line-height: 1; }
+  .stat-lbl { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fa); margin-top: 4px; }
 
-  /* ── TODAY STRIP ── */
-  .today-strip {
-    background: var(--tp);
-    border-bottom: 1.5px solid var(--bd);
-    padding: 14px 28px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+  .today-strip { background: var(--tp); border-bottom: 1.5px solid var(--bd); padding: 14px 28px; display: flex; align-items: center; gap: 16px; }
   .today-label { font-size: 0.75rem; font-weight: 500; color: var(--mu); white-space: nowrap; }
   .today-track { flex: 1; height: 8px; background: var(--bd); border-radius: 4px; overflow: hidden; }
-  .today-fill { height: 100%; background: var(--t); border-radius: 4px; width: 64%; transition: width 0.5s; }
+  .today-fill { height: 100%; background: var(--t); border-radius: 4px; width: 64%; }
   .today-pct { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; color: var(--t); white-space: nowrap; }
-  .today-btn {
-    background: var(--t);
-    color: #fff;
-    border: none;
-    padding: 7px 18px;
-    border-radius: 8px;
-    font-family: var(--font-sans);
-    font-size: 0.78rem;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s;
-  }
+  .today-btn { background: var(--t); color: #fff; border: none; padding: 7px 18px; border-radius: 8px; font-family: var(--font-sans); font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
   .today-btn:hover { background: #8C3506; }
 
-  /* ── SECTIONS ── */
   .section { padding: 28px; }
-  .section-title {
-    font-family: var(--font-serif);
-    font-size: 1.4rem;
-    color: var(--ink);
-    margin-bottom: 4px;
-  }
-  .section-sub {
-    font-size: 0.8rem;
-    color: var(--fa);
-    margin-bottom: 18px;
-  }
+  .section-title { font-family: var(--font-serif); font-size: 1.4rem; color: var(--ink); margin-bottom: 4px; }
+  .section-sub { font-size: 0.8rem; color: var(--fa); margin-bottom: 18px; }
 
-  /* ── CULTURE CARDS ── */
   .cult-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .cult-card {
-    border: 1.5px solid var(--bd);
-    border-radius: 14px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: #fff;
-  }
+  .cult-card { border: 1.5px solid var(--bd); border-radius: 14px; overflow: hidden; cursor: pointer; transition: all 0.2s; background: #fff; }
   .cult-card:hover { border-color: var(--tm); transform: translateY(-3px); }
   .cult-img { height: 128px; overflow: hidden; position: relative; }
   .cult-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .cult-img-fallback {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 3rem;
-  }
-  .cult-img-tag {
-    position: absolute;
-    top: 8px; left: 8px;
-    font-size: 0.58rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 8px;
-    background: rgba(26,18,8,0.55);
-    color: rgba(255,255,255,0.92);
-  }
+  .cult-img-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+  .cult-img-tag { position: absolute; top: 8px; left: 8px; font-size: 0.58rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 8px; border-radius: 8px; background: rgba(26,18,8,0.55); color: rgba(255,255,255,0.92); }
   .cult-body { padding: 14px 16px; }
-  .cult-title {
-    font-family: var(--font-serif);
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 5px;
-  }
+  .cult-title { font-family: var(--font-serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
   .cult-text { font-size: 0.75rem; color: var(--mu); line-height: 1.55; }
 
-  /* ── GESTURE GAME ── */
   .gesture-wrap { padding: 0 28px 28px; }
-  .gesture-box {
-    background: #fff;
-    border: 1.5px solid var(--bd);
-    border-radius: 16px;
-    overflow: hidden;
-  }
-  .gesture-header {
-    background: var(--t);
-    padding: 18px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .gesture-header-title {
-    font-family: var(--font-serif);
-    font-size: 1.15rem;
-    color: #fff;
-    font-style: italic;
-  }
+  .gesture-box { background: #fff; border: 1.5px solid var(--bd); border-radius: 16px; overflow: hidden; }
+  .gesture-header { background: var(--t); padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .gesture-header-title { font-family: var(--font-serif); font-size: 1.15rem; color: #fff; font-style: italic; }
   .gesture-score { font-size: 0.8rem; color: rgba(255,255,255,0.82); font-weight: 500; }
   .gesture-body { padding: 22px 24px; }
   .gesture-round { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fa); margin-bottom: 12px; font-weight: 500; }
@@ -458,18 +214,7 @@ const css = `
   .gesture-italian { font-family: var(--font-serif); font-size: 2rem; font-style: italic; color: var(--ink); }
   .gesture-phonetic { font-size: 0.76rem; color: var(--fa); margin-top: 3px; }
   .gesture-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-  .gesture-opt {
-    padding: 11px 14px;
-    border-radius: 9px;
-    border: 1.5px solid var(--bd);
-    background: var(--tp);
-    font-size: 0.83rem;
-    cursor: pointer;
-    text-align: left;
-    color: var(--ink);
-    transition: all 0.15s;
-    font-family: var(--font-sans);
-  }
+  .gesture-opt { padding: 11px 14px; border-radius: 9px; border: 1.5px solid var(--bd); background: var(--tp); font-size: 0.83rem; cursor: pointer; text-align: left; color: var(--ink); transition: all 0.15s; font-family: var(--font-sans); }
   .gesture-opt:hover:not(.answered) { border-color: var(--tm); background: var(--tl); }
   .gesture-opt.correct { border-color: var(--sa); background: var(--sl); color: #1A4A2E; font-weight: 600; }
   .gesture-opt.wrong { border-color: #D85A5A; background: #FCEAEA; color: #7A1A1A; }
@@ -479,36 +224,15 @@ const css = `
   .gesture-dot.done { background: var(--t); }
   .gesture-dot.current { background: var(--tm); }
 
-  /* ── WOD ── */
-  .wod {
-    background: var(--t);
-    border-radius: 14px;
-    padding: 24px 28px;
-    color: #fff;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    align-items: center;
-    margin: 0 28px 28px;
-  }
+  .wod { background: var(--t); border-radius: 14px; padding: 24px 28px; color: #fff; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; margin: 0 28px 28px; }
   .wod-tag { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; font-weight: 500; }
   .wod-word { font-family: var(--font-serif); font-size: 2.6rem; font-style: italic; }
   .wod-phon { font-size: 0.76rem; opacity: 0.75; margin-top: 4px; }
   .wod-trans { font-family: var(--font-serif); font-size: 1.3rem; margin-bottom: 6px; }
   .wod-ex { font-size: 0.8rem; opacity: 0.82; font-style: italic; line-height: 1.55; }
 
-  /* ── LEVELS ── */
   .lv-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 16px; }
-  .lv-card {
-    border: 1.5px solid var(--bd);
-    border-radius: 12px;
-    padding: 16px 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: #fff;
-    position: relative;
-  }
+  .lv-card { border: 1.5px solid var(--bd); border-radius: 12px; padding: 16px 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: #fff; position: relative; }
   .lv-card:hover:not(.locked) { border-color: var(--tm); transform: translateY(-2px); }
   .lv-card.active { border-color: var(--t); background: var(--tp); }
   .lv-card.done::after { content: '✓'; position: absolute; top: 7px; right: 9px; font-size: 0.65rem; color: var(--sa); font-weight: 700; }
@@ -520,48 +244,19 @@ const css = `
   .lv-fill { height: 100%; border-radius: 2px; background: var(--t); }
   .lv-fill.done { background: var(--sa); }
 
-  /* ── FLASHCARD PAGE ── */
-  .page-header {
-    background: var(--tp);
-    border-bottom: 1.5px solid var(--bd);
-    padding: 18px 28px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+  .page-header { background: var(--tp); border-bottom: 1.5px solid var(--bd); padding: 18px 28px; display: flex; align-items: center; gap: 16px; }
   .page-header h2 { font-family: var(--font-serif); font-size: 1.2rem; white-space: nowrap; }
   .progress-track { flex: 1; height: 7px; background: var(--bd); border-radius: 4px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--t); border-radius: 4px; transition: width 0.4s; }
   .page-counter { font-size: 0.76rem; color: var(--fa); white-space: nowrap; }
 
-  .deck-tabs {
-    display: flex;
-    gap: 4px;
-    padding: 14px 28px;
-    border-bottom: 1px solid var(--bd);
-    background: #fff;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .deck-tab {
-    font-size: 0.76rem;
-    font-weight: 500;
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid var(--bd);
-    background: transparent;
-    color: var(--mu);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s;
-    font-family: var(--font-sans);
-  }
+  .deck-tabs { display: flex; gap: 4px; padding: 14px 28px; border-bottom: 1px solid var(--bd); background: #fff; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .deck-tab { font-size: 0.76rem; font-weight: 500; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--bd); background: transparent; color: var(--mu); cursor: pointer; white-space: nowrap; transition: all 0.15s; font-family: var(--font-sans); }
   .deck-tab:hover { border-color: var(--t); color: var(--t); }
   .deck-tab.active { background: var(--t); border-color: var(--t); color: #fff; }
 
   .fc-body { padding: 28px; display: flex; flex-direction: column; align-items: center; }
   .fc-hint { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fa); margin-bottom: 14px; text-align: center; font-weight: 500; }
-
   .card-scene { perspective: 1200px; width: 100%; max-width: 480px; height: 250px; margin-bottom: 20px; cursor: pointer; }
   .card-3d { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
   .card-3d.flipped { transform: rotateY(180deg); }
@@ -580,18 +275,7 @@ const css = `
   .card-example { font-size: 0.8rem; margin-top: 12px; text-align: center; line-height: 1.55; font-style: italic; color: rgba(255,255,255,0.84); max-width: 320px; }
 
   .rate-btns { display: flex; gap: 10px; width: 100%; max-width: 480px; }
-  .rate-btn {
-    flex: 1;
-    padding: 11px;
-    border-radius: 10px;
-    border: 1.5px solid;
-    font-family: var(--font-sans);
-    font-size: 0.83rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
-    opacity: 0.35;
-  }
+  .rate-btn { flex: 1; padding: 11px; border-radius: 10px; border: 1.5px solid; font-family: var(--font-sans); font-size: 0.83rem; font-weight: 600; cursor: pointer; transition: all 0.15s; opacity: 0.35; }
   .rate-btn.enabled { opacity: 1; }
   .rate-btn.red { border-color: #E09090; color: #7A1A1A; background: #FCEAEA; }
   .rate-btn.amber { border-color: #D4B06A; color: #5C380A; background: var(--gl); }
@@ -600,62 +284,24 @@ const css = `
   .rate-btn.amber.enabled:hover { background: var(--go); color: #fff; border-color: var(--go); }
   .rate-btn.green.enabled:hover { background: var(--sa); color: #fff; border-color: var(--sa); }
 
-  .culture-note {
-    background: var(--gl);
-    border: 1.5px solid #E0C07A;
-    border-radius: 12px;
-    padding: 14px 18px;
-    width: 100%;
-    max-width: 480px;
-    margin-top: 16px;
-  }
+  .culture-note { background: var(--gl); border: 1.5px solid #E0C07A; border-radius: 12px; padding: 14px 18px; width: 100%; max-width: 480px; margin-top: 16px; }
   .cn-tag { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--go); margin-bottom: 6px; font-weight: 600; }
   .cn-text { font-size: 0.82rem; color: #4A3008; line-height: 1.55; }
 
-  /* ── QUIZ PAGE ── */
   .quiz-body { max-width: 580px; margin: 0 auto; padding: 28px; }
   .quiz-eyebrow { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fa); margin-bottom: 6px; font-weight: 500; }
   .quiz-question { font-family: var(--font-serif); font-size: 1.75rem; color: var(--ink); line-height: 1.25; margin-bottom: 6px; }
   .quiz-sub { font-size: 0.8rem; color: var(--fa); margin-bottom: 22px; }
   .quiz-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-  .quiz-opt {
-    padding: 13px 16px;
-    border-radius: 10px;
-    border: 1.5px solid var(--bd);
-    background: #fff;
-    font-size: 0.9rem;
-    cursor: pointer;
-    text-align: left;
-    color: var(--ink);
-    transition: all 0.15s;
-    font-family: var(--font-sans);
-  }
+  .quiz-opt { padding: 13px 16px; border-radius: 10px; border: 1.5px solid var(--bd); background: #fff; font-size: 0.9rem; cursor: pointer; text-align: left; color: var(--ink); transition: all 0.15s; font-family: var(--font-sans); }
   .quiz-opt:hover:not(.answered) { border-color: var(--tm); background: var(--tp); }
   .quiz-opt.correct { border-color: var(--sa); background: var(--sl); color: #1A4A2E; font-weight: 600; }
   .quiz-opt.wrong { border-color: #D85A5A; background: #FCEAEA; color: #7A1A1A; }
   .quiz-opt.dim { opacity: 0.35; cursor: default; }
-  .quiz-feedback {
-    border-radius: 10px;
-    padding: 13px 16px;
-    font-size: 0.85rem;
-    line-height: 1.55;
-    margin-bottom: 14px;
-  }
+  .quiz-feedback { border-radius: 10px; padding: 13px 16px; font-size: 0.85rem; line-height: 1.55; margin-bottom: 14px; }
   .quiz-feedback.good { background: var(--sl); border: 1px solid #A0C8B0; color: #1A4A2E; }
   .quiz-feedback.bad { background: #FCEAEA; border: 1px solid #E0A0A0; color: #7A1A1A; }
-  .quiz-next {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    background: var(--t);
-    color: #fff;
-    border: none;
-    font-family: var(--font-sans);
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+  .quiz-next { width: 100%; padding: 12px; border-radius: 10px; background: var(--t); color: #fff; border: none; font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
   .quiz-next:hover { background: #8C3506; }
 
   .result-box { text-align: center; padding: 40px 24px; background: #fff; border: 1.5px solid var(--bd); border-radius: 16px; }
@@ -664,69 +310,25 @@ const css = `
   .result-of { font-size: 0.85rem; color: var(--fa); margin-bottom: 6px; }
   .result-msg { font-family: var(--font-serif); font-style: italic; font-size: 1.4rem; color: var(--ink); margin: 8px 0 24px; }
 
-  /* ── FEEDBACK ── */
-  .feedback-msg {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    margin-top: 12px;
-  }
-
-  /* ── DONE SCREEN ── */
-  .done-screen {
-    width: 100%;
-    max-width: 480px;
-    background: #fff;
-    border: 1.5px solid var(--bd);
-    border-radius: 16px;
-    padding: 36px 28px;
-    text-align: center;
-    margin-top: 8px;
-  }
+  .done-screen { width: 100%; max-width: 480px; background: #fff; border: 1.5px solid var(--bd); border-radius: 16px; padding: 36px 28px; text-align: center; margin-top: 8px; }
   .done-screen h3 { font-family: var(--font-serif); font-size: 2rem; font-style: italic; color: var(--ink); margin-bottom: 8px; }
   .done-screen p { font-size: 0.85rem; color: var(--mu); margin-bottom: 22px; line-height: 1.6; }
 
-  /* ── SHARED ── */
-  .btn-primary {
-    background: var(--t);
-    color: #fff;
-    border: none;
-    padding: 11px 26px;
-    border-radius: 10px;
-    font-family: var(--font-sans);
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .btn-primary { background: var(--t); color: #fff; border: none; padding: 11px 26px; border-radius: 10px; font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
   .btn-primary:hover { background: #8C3506; transform: translateY(-1px); }
 `
 
-// ─── COMPONENT ───────────────────────────────────────────────────────────────
 export default function App() {
   const [page, setPage] = useState<Page>('home')
-
-  // Flashcard state
   const [deckKey, setDeckKey] = useState<DeckKey>('daily')
   const [cardIndex, setCardIndex] = useState(0)
   const [flipped, setFlipped] = useState(false)
   const [fcDone, setFcDone] = useState(false)
-
-  // Quiz state
   const [quizIndex, setQuizIndex] = useState(0)
   const [quizScore, setQuizScore] = useState(0)
   const [quizAnswered, setQuizAnswered] = useState(false)
   const [quizSelected, setQuizSelected] = useState<number | null>(null)
   const [quizDone, setQuizDone] = useState(false)
-
-  // Gesture game state
   const [gestureIndex, setGestureIndex] = useState(0)
   const [gestureScore, setGestureScore] = useState(0)
   const [gestureAnswered, setGestureAnswered] = useState(false)
@@ -736,61 +338,36 @@ export default function App() {
   const deck = DECKS[deckKey]
   const card = deck[cardIndex]
 
-  // ── Flashcard handlers ────────────────────────────────────────────────────
   const flipCard = () => { if (!flipped) setFlipped(true) }
-
   const rateCard = () => {
     if (!flipped) return
     if (cardIndex + 1 >= deck.length) { setFcDone(true); return }
-    setCardIndex(i => i + 1)
-    setFlipped(false)
+    setCardIndex(i => i + 1); setFlipped(false)
   }
+  const changeDeck = (key: DeckKey) => { setDeckKey(key); setCardIndex(0); setFlipped(false); setFcDone(false) }
 
-  const changeDeck = (key: DeckKey) => {
-    setDeckKey(key); setCardIndex(0); setFlipped(false); setFcDone(false)
-  }
-
-  // ── Quiz handlers ─────────────────────────────────────────────────────────
   const answerQuiz = (i: number) => {
     if (quizAnswered) return
-    setQuizAnswered(true)
-    setQuizSelected(i)
+    setQuizAnswered(true); setQuizSelected(i)
     if (i === QUIZ_QUESTIONS[quizIndex].answer) setQuizScore(s => s + 1)
   }
-
   const nextQuiz = () => {
     if (quizIndex + 1 >= QUIZ_QUESTIONS.length) { setQuizDone(true); return }
-    setQuizIndex(i => i + 1)
-    setQuizAnswered(false)
-    setQuizSelected(null)
+    setQuizIndex(i => i + 1); setQuizAnswered(false); setQuizSelected(null)
   }
+  const resetQuiz = () => { setQuizIndex(0); setQuizScore(0); setQuizAnswered(false); setQuizSelected(null); setQuizDone(false) }
 
-  const resetQuiz = () => {
-    setQuizIndex(0); setQuizScore(0)
-    setQuizAnswered(false); setQuizSelected(null); setQuizDone(false)
-  }
-
-  // ── Gesture handlers ──────────────────────────────────────────────────────
   const answerGesture = (i: number) => {
     if (gestureAnswered) return
-    setGestureAnswered(true)
-    setGestureSelected(i)
+    setGestureAnswered(true); setGestureSelected(i)
     if (i === GESTURE_QUESTIONS[gestureIndex].answer) setGestureScore(s => s + 1)
   }
-
   const nextGesture = () => {
     if (gestureIndex + 1 >= GESTURE_QUESTIONS.length) { setGestureDone(true); return }
-    setGestureIndex(i => i + 1)
-    setGestureAnswered(false)
-    setGestureSelected(null)
+    setGestureIndex(i => i + 1); setGestureAnswered(false); setGestureSelected(null)
   }
+  const resetGesture = () => { setGestureIndex(0); setGestureScore(0); setGestureAnswered(false); setGestureSelected(null); setGestureDone(false) }
 
-  const resetGesture = () => {
-    setGestureIndex(0); setGestureScore(0)
-    setGestureAnswered(false); setGestureSelected(null); setGestureDone(false)
-  }
-
-  // ── Navigate ──────────────────────────────────────────────────────────────
   const goTo = (p: Page) => {
     setPage(p)
     if (p === 'flashcards') { setCardIndex(0); setFlipped(false); setFcDone(false) }
@@ -807,11 +384,10 @@ export default function App() {
     <>
       <style>{css}</style>
 
-      {/* ── NAV ── */}
       <nav className="nav">
         <div className="nav-logo-wrap">
           <div className="nav-avatar">
-            <img src={IMG.hero} alt="La Dolce Lingua" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+            <img src={IMG.hero} alt="La Dolce Lingua" />
           </div>
           <div className="nav-logo" onClick={() => goTo('home')}>
             La Dolce Lingua
@@ -829,21 +405,15 @@ export default function App() {
         </div>
       </nav>
 
-      {/* ════════════════════════════════════════════════════════════════
-          HOME PAGE
-      ════════════════════════════════════════════════════════════════ */}
       {page === 'home' && (
         <>
-          {/* HERO */}
           <div className="hero">
             <img className="hero-img" src={IMG.hero} alt="Italian village street with Vespa, lemon trees and laundry" />
             <div className="hero-overlay" />
             <div className="hero-content">
               <div className="eyebrow">Bentornato · Welcome back</div>
               <h1 className="hero-h1">Speak Italian<br />like a <em>vero</em><br />italiano.</h1>
-              <p className="passport-quote">
-                "This is not a typical language app. It is a cultural passport — for the person who understands that to speak Italian well, one must first understand how Italians think, feel, and live."
-              </p>
+              <p className="passport-quote">"This is not a typical language app. It is a cultural passport — for the person who understands that to speak Italian well, one must first understand how Italians think, feel, and live."</p>
               <button className="hero-cta" onClick={() => goTo('flashcards')}>▶ Today's lesson</button>
             </div>
             <div className="hero-badge">
@@ -852,7 +422,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* STATS */}
           <div className="stats-row">
             <div className="stat"><div className="stat-val">142</div><div className="stat-lbl">Words learned</div></div>
             <div className="stat"><div className="stat-val">7</div><div className="stat-lbl">Day streak 🔥</div></div>
@@ -860,7 +429,6 @@ export default function App() {
             <div className="stat"><div className="stat-val">340</div><div className="stat-lbl">XP earned</div></div>
           </div>
 
-          {/* TODAY */}
           <div className="today-strip">
             <div className="today-label">Today's goal</div>
             <div className="today-track"><div className="today-fill" /></div>
@@ -868,7 +436,6 @@ export default function App() {
             <button className="today-btn" onClick={() => goTo('flashcards')}>Continue →</button>
           </div>
 
-          {/* CULTURE */}
           <div className="section">
             <div className="section-title">Cultura italiana 🇮🇹</div>
             <div className="section-sub">Language lives inside culture. Learn both.</div>
@@ -898,7 +465,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* GESTURE GAME */}
           <div className="gesture-wrap">
             <div className="section-title" style={{ marginBottom: 4 }}>🤌 Gesture game — <em style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>i gesti italiani</em></div>
             <div className="section-sub" style={{ marginBottom: 14 }}>Match the gesture to its meaning. Can you read an Italian without words?</div>
@@ -913,9 +479,7 @@ export default function App() {
                     <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.8rem', fontStyle: 'italic', color: 'var(--ink)', marginBottom: 8 }}>
                       {gestureScore === GESTURE_QUESTIONS.length ? 'Perfetto!' : 'Bravo!'}
                     </div>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--mu)', marginBottom: 18 }}>
-                      You scored {gestureScore} / {GESTURE_QUESTIONS.length} on the gesture game.
-                    </p>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--mu)', marginBottom: 18 }}>You scored {gestureScore} / {GESTURE_QUESTIONS.length} on the gesture game.</p>
                     <button className="btn-primary" onClick={resetGesture}>↺ Play again</button>
                   </div>
                 ) : (
@@ -961,7 +525,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* WORD OF THE DAY */}
           <div className="wod">
             <div>
               <div className="wod-tag">✦ Word of the day</div>
@@ -974,7 +537,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* LEVELS */}
           <div className="section">
             <div className="section-title">Your journey</div>
             <div className="section-sub">Master each level to unlock the next — language and culture deepen together.</div>
@@ -1000,19 +562,13 @@ export default function App() {
         </>
       )}
 
-      {/* ════════════════════════════════════════════════════════════════
-          FLASHCARDS PAGE
-      ════════════════════════════════════════════════════════════════ */}
       {page === 'flashcards' && (
         <>
           <div className="page-header">
             <h2>Flashcards</h2>
-            <div className="progress-track">
-              <div className="progress-fill" style={{ width: `${fcProgress}%` }} />
-            </div>
+            <div className="progress-track"><div className="progress-fill" style={{ width: `${fcProgress}%` }} /></div>
             <div className="page-counter">{Math.min(cardIndex + 1, deck.length)} / {deck.length}</div>
           </div>
-
           <div className="deck-tabs">
             {([
               ['daily', '📅 Daily set · A2'],
@@ -1025,7 +581,6 @@ export default function App() {
               <button key={key} className={`deck-tab ${deckKey === key ? 'active' : ''}`} onClick={() => changeDeck(key)}>{label}</button>
             ))}
           </div>
-
           <div className="fc-body">
             {fcDone ? (
               <div className="done-screen">
@@ -1052,13 +607,11 @@ export default function App() {
                     </div>
                   </div>
                 </div>
-
                 <div className="rate-btns">
                   <button className={`rate-btn red ${flipped ? 'enabled' : ''}`} onClick={rateCard}>✗ Didn't know</button>
                   <button className={`rate-btn amber ${flipped ? 'enabled' : ''}`} onClick={rateCard}>~ Hard</button>
                   <button className={`rate-btn green ${flipped ? 'enabled' : ''}`} onClick={rateCard}>✓ Got it!</button>
                 </div>
-
                 {flipped && (
                   <div className="culture-note">
                     <div className="cn-tag">✦ Culture note</div>
@@ -1071,19 +624,13 @@ export default function App() {
         </>
       )}
 
-      {/* ════════════════════════════════════════════════════════════════
-          QUIZ PAGE
-      ════════════════════════════════════════════════════════════════ */}
       {page === 'quiz' && (
         <>
           <div className="page-header">
             <h2>Daily Quiz</h2>
-            <div className="progress-track">
-              <div className="progress-fill" style={{ width: `${quizDone ? 100 : qzProgress}%` }} />
-            </div>
+            <div className="progress-track"><div className="progress-fill" style={{ width: `${quizDone ? 100 : qzProgress}%` }} /></div>
             <div className="page-counter">{Math.min(quizIndex + 1, QUIZ_QUESTIONS.length)} / {QUIZ_QUESTIONS.length}</div>
           </div>
-
           <div className="quiz-body">
             {quizDone ? (
               <div className="result-box">
